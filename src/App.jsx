@@ -1,6 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { loadPyodide, version as pyodideVersion } from "pyodide";
 import "./App.css";
 
 const starterCodes = {
@@ -157,6 +158,37 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [solvedProblems, setSolvedProblems] = useState([]);
   const [testResults, setTestResults] = useState([]);
+  const [pyodide, setPyodide] = useState(null);
+  const [runtimeError, setRuntimeError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function initializePython() {
+      try {
+        const instance = await loadPyodide({
+          indexURL: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
+        });
+
+        if (!cancelled) {
+          setPyodide(instance);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setRuntimeError(
+            "Python could not load. Check your internet connection and refresh the page."
+          );
+          console.error("Python initialization failed:", error);
+        }
+      }
+    }
+
+    initializePython();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filteredProblems = problems.filter((problem) => {
     const matchesSearch = problem.title
@@ -175,7 +207,11 @@ function App() {
 
   function changeLanguage(newLanguage) {
     setLanguage(newLanguage);
-    setCode(starterCodes[newLanguage]);
+    setCode(
+      newLanguage === "Python"
+        ? selectedProblem.starterCode
+        : starterCodes[newLanguage]
+    );
     setOutput("");
     setTestResults([]);
   }
@@ -193,56 +229,177 @@ function App() {
     setActiveTab("Description");
   }
 
-  // Prototype only: shows a preview without executing code.
-  function runCode() {
-    setRunning(true);
-    setOutput("Preparing demo preview...");
-    setTestResults([]);
-    setActiveTab("Output");
+  async function executePython(source, input) {
+    if (!pyodide) {
+      throw new Error(runtimeError || "Python is still loading.");
+    }
 
-    window.setTimeout(() => {
-      setOutput(
-        `PROTOTYPE DEMO — SIMULATED RESULT\n\n` +
-          `Problem: ${selectedProblem.title}\n` +
-          `Language: ${language}\n\n` +
-          `Sample Input:\n${customInput || selectedProblem.exampleInput}\n\n` +
-          `Expected Output:\n${selectedProblem.exampleOutput}\n\n` +
-          `Your code was not executed. This is a demonstration only.`
-      );
-      setRunning(false);
-    }, 500);
+    pyodide.globals.set("__cs_code", source);
+    pyodide.globals.set("__cs_input", input);
+
+    await pyodide.runPythonAsync(`
+import sys
+import io
+import contextlib
+import traceback
+
+__cs_old_stdin = sys.stdin
+__cs_stdout_buffer = io.StringIO()
+__cs_stderr_buffer = io.StringIO()
+
+try:
+    sys.stdin = io.StringIO(__cs_input)
+
+    with contextlib.redirect_stdout(__cs_stdout_buffer), contextlib.redirect_stderr(__cs_stderr_buffer):
+        exec(
+            compile(__cs_code, "<CodeSpace>", "exec"),
+            {"__name__": "__main__"}
+        )
+
+except BaseException:
+    __cs_stderr_buffer.write(traceback.format_exc())
+
+finally:
+    sys.stdin = __cs_old_stdin
+
+__cs_stdout_result = __cs_stdout_buffer.getvalue()
+__cs_stderr_result = __cs_stderr_buffer.getvalue()
+`);
+
+    const stdout = pyodide.globals
+      .get("__cs_stdout_result")
+      .toString();
+
+    const stderr = pyodide.globals
+      .get("__cs_stderr_result")
+      .toString();
+
+    return { stdout, stderr };
   }
 
-  // Prototype only: test cases are displayed, not executed.
-  function submitCode() {
+  async function runCode() {
+    if (running) return;
+
     setRunning(true);
-    setOutput("Preparing simulated submission...");
+    setOutput("Running Python code...");
     setTestResults([]);
     setActiveTab("Output");
 
-    window.setTimeout(() => {
-      const results = selectedProblem.testCases.map(
-        (test, index) => ({
-          number: index + 1,
-          input: test.input,
-          expected: test.expected,
-          actual: "Not executed",
-          error: "",
-          status: "Demo Preview",
-          passed: false,
-        })
+    try {
+      if (language !== "Python") {
+        setOutput(
+          "Real execution is currently available for Python only. Select Python to continue."
+        );
+        return;
+      }
+
+      const input =
+        customInput !== "" ? customInput : selectedProblem.exampleInput;
+
+      const result = await executePython(code, input);
+
+      if (result.stderr) {
+        setOutput(
+          `${result.stdout}${result.stdout ? "\n" : ""}Error:\n${result.stderr}`
+        );
+      } else {
+        setOutput(result.stdout || "(No output)");
+      }
+    } catch (error) {
+      setOutput(`Execution error:\n${error.message}`);
+    } finally {
+      setRunning(false);
+    }
+  }
+
+  async function submitCode() {
+    if (running) return;
+
+    setRunning(true);
+    setOutput("Running visible test cases...");
+    setTestResults([]);
+    setActiveTab("Output");
+
+    try {
+      if (language !== "Python") {
+        setOutput(
+          "Real execution is currently available for Python only. Select Python to continue."
+        );
+        return;
+      }
+
+      const results = [];
+
+      for (
+        let index = 0;
+        index < selectedProblem.testCases.length;
+        index++
+      ) {
+        const test = selectedProblem.testCases[index];
+
+        try {
+          const result = await executePython(code, test.input);
+          const actual = result.stdout.trim();
+          const expected = test.expected.trim();
+
+          const passed =
+            !result.stderr && actual === expected;
+
+          results.push({
+            number: index + 1,
+            input: test.input,
+            expected: test.expected,
+            actual: result.stdout,
+            error: result.stderr,
+            status: passed
+              ? "Passed"
+              : result.stderr
+                ? "Runtime Error"
+                : "Wrong Answer",
+            passed,
+          });
+        } catch (error) {
+          results.push({
+            number: index + 1,
+            input: test.input,
+            expected: test.expected,
+            actual: "",
+            error: error.message,
+            status: "Execution Error",
+            passed: false,
+          });
+        }
+
+        setTestResults([...results]);
+      }
+
+      const passedCount = results.filter(
+        (test) => test.passed
+      ).length;
+
+      setOutput(
+        `Visible test cases: ${passedCount}/${results.length} passed.\n` +
+          (passedCount === results.length
+            ? "All visible test cases passed!"
+            : "Some test cases failed. Check the results for details.")
       );
 
-      setTestResults(results);
-      setOutput(
-        `PROTOTYPE DEMO — SIMULATED SUBMISSION\n\n` +
-          `Problem: ${selectedProblem.title}\n` +
-          `Test cases displayed: ${results.length}\n\n` +
-          `No test cases were executed.\n` +
-          `This is a UI demonstration, not a real submission.`
-      );
+      if (passedCount === results.length) {
+        setSolvedProblems((previous) =>
+          previous.includes(selectedProblem.id)
+            ? previous
+            : [...previous, selectedProblem.id]
+        );
+      } else {
+        setSolvedProblems((previous) =>
+          previous.filter((id) => id !== selectedProblem.id)
+        );
+      }
+    } catch (error) {
+      setOutput(`Submission error:\n${error.message}`);
+    } finally {
       setRunning(false);
-    }, 500);
+    }
   }
 
   function clearOutput() {
@@ -309,8 +466,7 @@ function App() {
           <div className="problem-list">
             {filteredProblems.map((problem) => {
               const isSolved = solvedProblems.includes(problem.id);
-              const isSelected =
-                selectedProblem.id === problem.id;
+              const isSelected = selectedProblem.id === problem.id;
 
               return (
                 <button
@@ -345,26 +501,15 @@ function App() {
 
         <section className="description-panel">
           <div className="panel-tabs">
-            <button
-              className={
-                activeTab === "Description" ? "tab-active" : ""
-              }
-              onClick={() => setActiveTab("Description")}
-            >
-              Description
-            </button>
-            <button
-              className={activeTab === "Examples" ? "tab-active" : ""}
-              onClick={() => setActiveTab("Examples")}
-            >
-              Examples
-            </button>
-            <button
-              className={activeTab === "Output" ? "tab-active" : ""}
-              onClick={() => setActiveTab("Output")}
-            >
-              Output
-            </button>
+            {["Description", "Examples", "Output"].map((tab) => (
+              <button
+                key={tab}
+                className={activeTab === tab ? "tab-active" : ""}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
 
           {activeTab === "Description" ? (
@@ -383,24 +528,23 @@ function App() {
                 <p>
                   Write your solution in the editor. Read input from
                   standard input and print your answer to standard
-                  output. Execution is simulated in this prototype.
+                  output. Python code executes in your browser.
                 </p>
               </div>
 
               <div className="description-section">
-                <h3>Test Cases</h3>
+                <h3>Visible Test Cases</h3>
                 <p>
                   This problem has {selectedProblem.testCases.length}{" "}
-                  sample test cases. Submit to preview the results
-                  panel.
+                  visible test cases. Submit your code to check them.
                 </p>
               </div>
 
               <div className="hint-card">
                 <span>💡</span>
                 <p>
-                  This prototype demonstrates the coding interface.
-                  Submitted code is not executed.
+                  Use Run Code to test your own input, or Submit Code
+                  to check all visible test cases.
                 </p>
               </div>
             </div>
@@ -418,11 +562,15 @@ function App() {
             </div>
           ) : (
             <div className="problem-description output-view">
-              <h3>Execution Preview</h3>
+              <h3>Execution Output</h3>
               <pre className="example-block">
-                {output || "Click Run Code or Submit Code to preview results."}
+                {output || "Run your code or submit it to see results."}
               </pre>
-              <p>Results in prototype mode are simulated.</p>
+              <p>
+                {testResults.length > 0
+                  ? `${testResults.filter((test) => test.passed).length}/${testResults.length} visible tests passed.`
+                  : "Python execution results appear here."}
+              </p>
             </div>
           )}
         </section>
@@ -473,7 +621,7 @@ function App() {
             <textarea
               id="custom-input"
               className="custom-input"
-              placeholder="Enter input for your demo..."
+              placeholder="Enter input here..."
               value={customInput}
               onChange={(event) =>
                 setCustomInput(event.target.value)
@@ -486,22 +634,33 @@ function App() {
             <button
               className="run-button"
               onClick={runCode}
-              disabled={running}
+              disabled={running || !pyodide}
             >
-              {running ? "Preparing..." : "▶ Run Code"}
+              {running
+                ? "Running..."
+                : !pyodide
+                  ? "Loading Python..."
+                  : "▶ Run Code"}
             </button>
 
             <button
               className="submit-button"
               onClick={submitCode}
-              disabled={running}
+              disabled={running || !pyodide}
             >
-              {running ? "Please wait..." : "✓ Submit Code"}
+              {running
+                ? "Checking..."
+                : !pyodide
+                  ? "Loading Python..."
+                  : "✓ Submit Code"}
             </button>
           </div>
 
           <p className="prototype-note">
-            Demo mode: code execution and test results are simulated.
+            {runtimeError ||
+              (pyodide
+                ? "Python is ready. Java, C, and C++ execution is not enabled yet."
+                : "Loading Python runtime. Please wait...")}
           </p>
 
           <div className="console-panel">
@@ -515,12 +674,14 @@ function App() {
                 {testResults.map((test) => (
                   <div
                     key={test.number}
-                    className="test-result"
+                    className={`test-result ${
+                      test.passed ? "test-passed" : "test-failed"
+                    }`}
                   >
                     <div className="test-result-heading">
                       <strong>Test Case {test.number}</strong>
                       <span className="test-status">
-                        Demo Preview
+                        {test.status}
                       </span>
                     </div>
 
@@ -535,9 +696,13 @@ function App() {
                       </p>
                       <p>
                         <strong>Actual:</strong>
-                        <code>Not executed</code>
+                        <code>{test.actual || "(no output)"}</code>
                       </p>
                     </div>
+
+                    {test.error && (
+                      <pre className="test-error">{test.error}</pre>
+                    )}
                   </div>
                 ))}
               </div>
@@ -548,7 +713,7 @@ function App() {
             </div>
 
             <pre className="console-output">
-              {output || "Run your code to see the demo preview here."}
+              {output || "Run your code to see the output here."}
             </pre>
           </div>
         </section>
