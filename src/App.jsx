@@ -193,152 +193,56 @@ function App() {
     setActiveTab("Description");
   }
 
-  async function executePython(inputText, expectedOutput) {
-    const response = await fetch("http://127.0.0.1:8000/run", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        code,
-        input: inputText,
-        ...(expectedOutput !== undefined ? { expectedOutput } : {}),
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok && !data.error) {
-      throw new Error("The server could not run your code.");
-    }
-
-    return data;
-  }
-
-  async function runCode() {
-    if (language !== "Python") {
-      setOutput(
-        `${language} execution is not configured yet. Please select Python to run code.`
-      );
-      return;
-    }
-
+  // Prototype only: shows a preview without executing code.
+  function runCode() {
     setRunning(true);
-    setOutput("Running your code...");
+    setOutput("Preparing demo preview...");
     setTestResults([]);
+    setActiveTab("Output");
 
-    try {
-      const result = await executePython(customInput);
-
-      if (result.error) {
-        setOutput(
-          [result.output, result.error].filter(Boolean).join("\n")
-        );
-      } else {
-        setOutput(result.output || "Program finished with no output.");
-      }
-    } catch (error) {
-      setOutput(`Connection error: ${error.message}`);
-    } finally {
+    window.setTimeout(() => {
+      setOutput(
+        `PROTOTYPE DEMO — SIMULATED RESULT\n\n` +
+          `Problem: ${selectedProblem.title}\n` +
+          `Language: ${language}\n\n` +
+          `Sample Input:\n${customInput || selectedProblem.exampleInput}\n\n` +
+          `Expected Output:\n${selectedProblem.exampleOutput}\n\n` +
+          `Your code was not executed. This is a demonstration only.`
+      );
       setRunning(false);
-    }
+    }, 500);
   }
 
-  async function submitCode() {
-    if (language !== "Python") {
-      setOutput(
-        `${language} execution is not configured yet. Please select Python to submit this problem.`
-      );
-      return;
-    }
-
+  // Prototype only: test cases are displayed, not executed.
+  function submitCode() {
     setRunning(true);
+    setOutput("Preparing simulated submission...");
     setTestResults([]);
-    setOutput("Running test cases...");
+    setActiveTab("Output");
 
-    const results = [];
-
-    try {
-      for (let i = 0; i < selectedProblem.testCases.length; i++) {
-        const test = selectedProblem.testCases[i];
-
-        const testResult = {
-          number: i + 1,
+    window.setTimeout(() => {
+      const results = selectedProblem.testCases.map(
+        (test, index) => ({
+          number: index + 1,
           input: test.input,
           expected: test.expected,
-          actual: "",
+          actual: "Not executed",
           error: "",
-          status: "Running",
+          status: "Demo Preview",
           passed: false,
-        };
-
-        try {
-          const result = await executePython(
-            test.input,
-            test.expected
-          );
-
-          testResult.actual = result.output ?? "";
-          testResult.error = result.error ?? "";
-
-          if (result.status === "Time Limit Exceeded") {
-            testResult.status = "Time Limit Exceeded";
-          } else if (result.error || result.status === "Runtime Error") {
-            testResult.status = "Runtime Error";
-          } else {
-            testResult.passed =
-              result.passed === true ||
-              (
-                result.passed === undefined &&
-                testResult.actual.trim() === test.expected.trim()
-              );
-
-            testResult.status = testResult.passed
-              ? "Accepted"
-              : "Wrong Answer";
-          }
-        } catch (error) {
-          testResult.status = "Connection Error";
-          testResult.error = error.message;
-        }
-
-        results.push(testResult);
-        setTestResults([...results]);
-
-        if (
-          testResult.status === "Runtime Error" ||
-          testResult.status === "Time Limit Exceeded" ||
-          testResult.status === "Connection Error"
-        ) {
-          break;
-        }
-      }
-
-      const passedCount = results.filter(
-        (result) => result.passed
-      ).length;
-
-      const totalCount = selectedProblem.testCases.length;
-      const allPassed =
-        results.length === totalCount &&
-        results.every((result) => result.passed);
-
-      if (allPassed) {
-        setSolvedProblems((previous) =>
-          previous.includes(selectedProblem.id)
-            ? previous
-            : [...previous, selectedProblem.id]
-        );
-      }
-
-      setOutput(
-        allPassed
-          ? `Accepted! All ${totalCount} test cases passed.`
-          : `${passedCount} of ${totalCount} test cases passed.`
+        })
       );
-    } finally {
+
+      setTestResults(results);
+      setOutput(
+        `PROTOTYPE DEMO — SIMULATED SUBMISSION\n\n` +
+          `Problem: ${selectedProblem.title}\n` +
+          `Test cases displayed: ${results.length}\n\n` +
+          `No test cases were executed.\n` +
+          `This is a UI demonstration, not a real submission.`
+      );
       setRunning(false);
-    }
+    }, 500);
   }
 
   function clearOutput() {
@@ -442,7 +346,9 @@ function App() {
         <section className="description-panel">
           <div className="panel-tabs">
             <button
-              className={activeTab === "Description" ? "tab-active" : ""}
+              className={
+                activeTab === "Description" ? "tab-active" : ""
+              }
               onClick={() => setActiveTab("Description")}
             >
               Description
@@ -452,6 +358,12 @@ function App() {
               onClick={() => setActiveTab("Examples")}
             >
               Examples
+            </button>
+            <button
+              className={activeTab === "Output" ? "tab-active" : ""}
+              onClick={() => setActiveTab("Output")}
+            >
+              Output
             </button>
           </div>
 
@@ -471,7 +383,7 @@ function App() {
                 <p>
                   Write your solution in the editor. Read input from
                   standard input and print your answer to standard
-                  output.
+                  output. Execution is simulated in this prototype.
                 </p>
               </div>
 
@@ -479,20 +391,20 @@ function App() {
                 <h3>Test Cases</h3>
                 <p>
                   This problem has {selectedProblem.testCases.length}{" "}
-                  test cases. Click <strong>Submit Code</strong> to
-                  check your solution against all of them.
+                  sample test cases. Submit to preview the results
+                  panel.
                 </p>
               </div>
 
               <div className="hint-card">
                 <span>💡</span>
                 <p>
-                  Test your solution with different inputs before
-                  submitting it.
+                  This prototype demonstrates the coding interface.
+                  Submitted code is not executed.
                 </p>
               </div>
             </div>
-          ) : (
+          ) : activeTab === "Examples" ? (
             <div className="problem-description">
               <h3>Example Input</h3>
               <pre className="example-block">
@@ -503,10 +415,14 @@ function App() {
               <pre className="example-block">
                 {selectedProblem.exampleOutput}
               </pre>
-
-              <p>
-                Make sure your output matches the expected output.
-              </p>
+            </div>
+          ) : (
+            <div className="problem-description output-view">
+              <h3>Execution Preview</h3>
+              <pre className="example-block">
+                {output || "Click Run Code or Submit Code to preview results."}
+              </pre>
+              <p>Results in prototype mode are simulated.</p>
             </div>
           )}
         </section>
@@ -557,7 +473,7 @@ function App() {
             <textarea
               id="custom-input"
               className="custom-input"
-              placeholder="Enter input for your program..."
+              placeholder="Enter input for your demo..."
               value={customInput}
               onChange={(event) =>
                 setCustomInput(event.target.value)
@@ -572,7 +488,7 @@ function App() {
               onClick={runCode}
               disabled={running}
             >
-              {running ? "Running..." : "▶ Run Code"}
+              {running ? "Preparing..." : "▶ Run Code"}
             </button>
 
             <button
@@ -580,9 +496,13 @@ function App() {
               onClick={submitCode}
               disabled={running}
             >
-              {running ? "Checking..." : "✓ Submit Code"}
+              {running ? "Please wait..." : "✓ Submit Code"}
             </button>
           </div>
+
+          <p className="prototype-note">
+            Demo mode: code execution and test results are simulated.
+          </p>
 
           <div className="console-panel">
             <div className="console-heading">
@@ -595,16 +515,12 @@ function App() {
                 {testResults.map((test) => (
                   <div
                     key={test.number}
-                    className={`test-result ${
-                      test.passed ? "test-passed" : "test-failed"
-                    }`}
+                    className="test-result"
                   >
                     <div className="test-result-heading">
                       <strong>Test Case {test.number}</strong>
                       <span className="test-status">
-                        {test.passed
-                          ? "✓ Passed"
-                          : `✕ ${test.status}`}
+                        Demo Preview
                       </span>
                     </div>
 
@@ -613,23 +529,15 @@ function App() {
                         <strong>Input:</strong>
                         <code>{test.input || "(empty)"}</code>
                       </p>
-
                       <p>
                         <strong>Expected:</strong>
                         <code>{test.expected || "(empty)"}</code>
                       </p>
-
                       <p>
                         <strong>Actual:</strong>
-                        <code>
-                          {test.actual.trim() || "(no output)"}
-                        </code>
+                        <code>Not executed</code>
                       </p>
                     </div>
-
-                    {test.error && (
-                      <pre className="test-error">{test.error}</pre>
-                    )}
                   </div>
                 ))}
               </div>
@@ -640,7 +548,7 @@ function App() {
             </div>
 
             <pre className="console-output">
-              {output || "Run your code to see output here."}
+              {output || "Run your code to see the demo preview here."}
             </pre>
           </div>
         </section>
