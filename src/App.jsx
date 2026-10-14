@@ -1,59 +1,21 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import { loadPyodide, version as pyodideVersion } from "pyodide";
 import "./App.css";
-
-const starterCodes = {
-  Python: `text = input()
-print(text[::-1])`,
-  Java: `public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}`,
-  C: `#include <stdio.h>
-
-int main() {
-    printf("Hello, World!\\n");
-    return 0;
-}`,
-  "C++": `#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "Hello, World!" << endl;
-    return 0;
-}`,
-};
-
-const editorLanguages = {
-  Python: "python",
-  Java: "java",
-  C: "c",
-  "C++": "cpp",
-};
 
 const problems = [
   {
     id: 1,
     title: "Two Sum",
     difficulty: "Easy",
+    topic: "Arrays",
     description:
-      "Given a list of integers and a target value, find the indices of two numbers whose sum equals the target. Print the two indices separated by a space.",
+      "Given a list of integers and a target, find the indices of two numbers whose sum equals the target.",
+    starterCode:
+      "nums = list(map(int, input().split()))\ntarget = int(input())\n\nfor i in range(len(nums)):\n    for j in range(i + 1, len(nums)):\n        if nums[i] + nums[j] == target:\n            print(i, j)\n            break\n    else:\n        continue\n    break",
     exampleInput: "2 7 11 15\n9",
     exampleOutput: "0 1",
-    starterCode: `nums = list(map(int, input().split()))
-target = int(input())
-
-for i in range(len(nums)):
-    for j in range(i + 1, len(nums)):
-        if nums[i] + nums[j] == target:
-            print(i, j)
-            break
-    else:
-        continue
-    break`,
     testCases: [
       { input: "2 7 11 15\n9", expected: "0 1" },
       { input: "3 2 4\n6", expected: "1 2" },
@@ -64,57 +26,50 @@ for i in range(len(nums)):
     id: 2,
     title: "Reverse a String",
     difficulty: "Easy",
+    topic: "Strings",
     description:
-      "Write a program that reads a string and prints the string in reverse order.",
+      "Read a string and print the characters in reverse order.",
+    starterCode:
+      'text = input()\nprint(text[::-1])',
     exampleInput: "hello",
     exampleOutput: "olleh",
-    starterCode: `text = input()
-print(text[::-1])`,
     testCases: [
       { input: "hello", expected: "olleh" },
-      { input: "code", expected: "edoc" },
       { input: "Python", expected: "nohtyP" },
+      { input: "12345", expected: "54321" },
     ],
   },
   {
     id: 3,
     title: "Check Prime Number",
     difficulty: "Easy",
+    topic: "Math",
     description:
-      "Read an integer and print Prime if it is a prime number. Otherwise, print Not Prime.",
+      "Read an integer and print True if it is prime, otherwise print False.",
+    starterCode:
+      "n = int(input())\n\nis_prime = n >= 2\nfor i in range(2, int(n ** 0.5) + 1):\n    if n % i == 0:\n        is_prime = False\n        break\n\nprint(is_prime)",
     exampleInput: "7",
-    exampleOutput: "Prime",
-    starterCode: `n = int(input())
-
-if n < 2:
-    print("Not Prime")
-else:
-    is_prime = True
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
-            is_prime = False
-            break
-
-    print("Prime" if is_prime else "Not Prime")`,
+    exampleOutput: "True",
     testCases: [
-      { input: "7", expected: "Prime" },
-      { input: "10", expected: "Not Prime" },
-      { input: "2", expected: "Prime" },
-      { input: "1", expected: "Not Prime" },
+      { input: "7", expected: "True" },
+      { input: "10", expected: "False" },
+      { input: "1", expected: "False" },
+      { input: "2", expected: "True" },
     ],
   },
   {
     id: 4,
     title: "Find Maximum",
     difficulty: "Easy",
+    topic: "Arrays",
     description:
-      "Read a line of space-separated integers and print the largest number.",
-    exampleInput: "4 9 2 15 6",
-    exampleOutput: "15",
-    starterCode: `nums = list(map(int, input().split()))
-print(max(nums))`,
+      "Read a space-separated list of integers and print the largest number.",
+    starterCode:
+      "nums = list(map(int, input().split()))\nprint(max(nums))",
+    exampleInput: "10 25 7 42 18",
+    exampleOutput: "42",
     testCases: [
-      { input: "4 9 2 15 6", expected: "15" },
+      { input: "10 25 7 42 18", expected: "42" },
       { input: "-5 -2 -10", expected: "-2" },
       { input: "8", expected: "8" },
     ],
@@ -123,62 +78,126 @@ print(max(nums))`,
     id: 5,
     title: "Fibonacci Sequence",
     difficulty: "Easy",
+    topic: "Loops",
     description:
-      "Read a positive integer n and print the first n Fibonacci numbers separated by spaces. Start the sequence with 0 and 1.",
+      "Read n and print the first n Fibonacci numbers, starting with 0 and 1, separated by spaces.",
+    starterCode:
+      "n = int(input())\na, b = 0, 1\nresult = []\n\nfor _ in range(n):\n    result.append(a)\n    a, b = b, a + b\n\nprint(*result)",
     exampleInput: "7",
     exampleOutput: "0 1 1 2 3 5 8",
-    starterCode: `n = int(input())
-
-a, b = 0, 1
-result = []
-
-for _ in range(n):
-    result.append(str(a))
-    a, b = b, a + b
-
-print(" ".join(result))`,
     testCases: [
       { input: "7", expected: "0 1 1 2 3 5 8" },
-      { input: "5", expected: "0 1 1 2 3" },
       { input: "1", expected: "0" },
+      { input: "5", expected: "0 1 1 2 3" },
     ],
   },
 ];
 
+const languages = ["Python", "Java", "C", "C++"];
+
+const starterCodes = {
+  Python: problems[0].starterCode,
+  Java: "// Java execution is not enabled yet.",
+  C: "// C execution is not enabled yet.",
+  "C++": "// C++ execution is not enabled yet.",
+};
+
+function readSaved(key, fallback) {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function App() {
+  const [selectedProblem, setSelectedProblem] = useState(problems[0]);
   const [language, setLanguage] = useState("Python");
-  const [selectedProblem, setSelectedProblem] = useState(problems[1]);
-  const [code, setCode] = useState(problems[1].starterCode);
+
+  const [codeDrafts, setCodeDrafts] = useState(() =>
+    readSaved("codespace-code-drafts", {})
+  );
+
+  const [code, setCode] = useState(
+    () =>
+      readSaved("codespace-code-drafts", {})["1:Python"] ??
+      problems[0].starterCode
+  );
+
+  const [solvedProblems, setSolvedProblems] = useState(() =>
+    readSaved("codespace-solved", [])
+  );
+
+  const [bookmarks, setBookmarks] = useState(() =>
+    readSaved("codespace-bookmarks", [])
+  );
+
+  const [customInput, setCustomInput] = useState(
+    problems[0].exampleInput
+  );
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [activeTab, setActiveTab] = useState("Description");
-  const [customInput, setCustomInput] = useState("");
   const [output, setOutput] = useState("");
-  const [running, setRunning] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
-  const [solvedProblems, setSolvedProblems] = useState([]);
   const [testResults, setTestResults] = useState([]);
-  const [pyodide, setPyodide] = useState(null);
-  const [runtimeError, setRuntimeError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+  const [fontSize, setFontSize] = useState(14);
+  const [executionTime, setExecutionTime] = useState(null);
+  const [pyodideReady, setPyodideReady] = useState(false);
+  const [pyodideError, setPyodideError] = useState("");
+
+  const pyodideRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "codespace-code-drafts",
+      JSON.stringify(codeDrafts)
+    );
+  }, [codeDrafts]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "codespace-solved",
+      JSON.stringify(solvedProblems)
+    );
+  }, [solvedProblems]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "codespace-bookmarks",
+      JSON.stringify(bookmarks)
+    );
+  }, [bookmarks]);
 
   useEffect(() => {
     let cancelled = false;
 
     async function initializePython() {
       try {
+        setIsLoading(true);
+
         const instance = await loadPyodide({
           indexURL: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
         });
 
         if (!cancelled) {
-          setPyodide(instance);
+          pyodideRef.current = instance;
+          setPyodideReady(true);
+          setPyodideError("");
         }
       } catch (error) {
         if (!cancelled) {
-          setRuntimeError(
-            "Python could not load. Check your internet connection and refresh the page."
+          setPyodideError(
+            error?.message || "Unable to load the Python runtime."
           );
-          console.error("Python initialization failed:", error);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
         }
       }
     }
@@ -190,269 +209,343 @@ function App() {
     };
   }, []);
 
-  const filteredProblems = problems.filter((problem) => {
-    const matchesSearch = problem.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const isSolved = solvedProblems.includes(problem.id);
-
-    const matchesFilter =
-      filter === "All" ||
-      (filter === "Solved" && isSolved) ||
-      (filter === "Unsolved" && !isSolved);
-
-    return matchesSearch && matchesFilter;
-  });
-
-  function changeLanguage(newLanguage) {
-    setLanguage(newLanguage);
-    setCode(
-      newLanguage === "Python"
-        ? selectedProblem.starterCode
-        : starterCodes[newLanguage]
-    );
-    setOutput("");
-    setTestResults([]);
-  }
-
-  function selectProblem(problem) {
+  function changeProblem(problem) {
     setSelectedProblem(problem);
+
+    const key = `${problem.id}:${language}`;
+    const drafts = codeDrafts;
+
     setCode(
-      language === "Python"
-        ? problem.starterCode
-        : starterCodes[language]
+      drafts[key] ??
+        (language === "Python"
+          ? problem.starterCode
+          : starterCodes[language])
     );
-    setCustomInput("");
+
+    setCustomInput(problem.exampleInput);
     setOutput("");
     setTestResults([]);
+    setExecutionTime(null);
     setActiveTab("Description");
   }
 
+  function changeLanguage(nextLanguage) {
+    setLanguage(nextLanguage);
+
+    const key = `${selectedProblem.id}:${nextLanguage}`;
+
+    setCode(
+      codeDrafts[key] ??
+        (nextLanguage === "Python"
+          ? selectedProblem.starterCode
+          : starterCodes[nextLanguage])
+    );
+
+    setOutput("");
+    setTestResults([]);
+    setExecutionTime(null);
+  }
+
+  function updateCode(nextCode) {
+    setCode(nextCode);
+
+    setCodeDrafts((previous) => ({
+      ...previous,
+      [`${selectedProblem.id}:${language}`]: nextCode,
+    }));
+  }
+
+  function resetCode() {
+    const initialCode =
+      language === "Python"
+        ? selectedProblem.starterCode
+        : starterCodes[language];
+
+    updateCode(initialCode);
+    setOutput("");
+    setTestResults([]);
+  }
+
   async function executePython(source, input) {
+    const pyodide = pyodideRef.current;
+
     if (!pyodide) {
-      throw new Error(runtimeError || "Python is still loading.");
+      throw new Error("Python is still loading. Please try again.");
     }
 
-    pyodide.globals.set("__cs_code", source);
-    pyodide.globals.set("__cs_input", input);
+    pyodide.setStdout({ batched: () => {} });
+    pyodide.setStderr({ batched: () => {} });
 
-    await pyodide.runPythonAsync(`
+    pyodide.globals.set("__codespace_source", source);
+    pyodide.globals.set("__codespace_input", input);
+
+    const wrapper = `
 import sys
 import io
-import contextlib
 import traceback
 
-__cs_old_stdin = sys.stdin
-__cs_stdout_buffer = io.StringIO()
-__cs_stderr_buffer = io.StringIO()
+_codespace_stdout = io.StringIO()
+_codespace_stderr = io.StringIO()
+_codespace_old_stdin = sys.stdin
+_codespace_old_stdout = sys.stdout
+_codespace_old_stderr = sys.stderr
 
 try:
-    sys.stdin = io.StringIO(__cs_input)
+    sys.stdin = io.StringIO(__codespace_input)
+    sys.stdout = _codespace_stdout
+    sys.stderr = _codespace_stderr
 
-    with contextlib.redirect_stdout(__cs_stdout_buffer), contextlib.redirect_stderr(__cs_stderr_buffer):
-        exec(
-            compile(__cs_code, "<CodeSpace>", "exec"),
-            {"__name__": "__main__"}
-        )
+    exec(
+        compile(__codespace_source, "<CodeSpace>", "exec"),
+        {"__name__": "__main__"}
+    )
 
-except BaseException:
-    __cs_stderr_buffer.write(traceback.format_exc())
-
+except SystemExit:
+    pass
+except Exception:
+    traceback.print_exc(file=_codespace_stderr)
 finally:
-    sys.stdin = __cs_old_stdin
+    sys.stdin = _codespace_old_stdin
+    sys.stdout = _codespace_old_stdout
+    sys.stderr = _codespace_old_stderr
 
-__cs_stdout_result = __cs_stdout_buffer.getvalue()
-__cs_stderr_result = __cs_stderr_buffer.getvalue()
-`);
+_codespace_result = _codespace_stdout.getvalue()
+_codespace_error = _codespace_stderr.getvalue()
+(_codespace_result, _codespace_error)
+`;
 
-    const stdout = pyodide.globals
-      .get("__cs_stdout_result")
-      .toString();
-
-    const stderr = pyodide.globals
-      .get("__cs_stderr_result")
-      .toString();
-
-    return { stdout, stderr };
+    try {
+      const result = await pyodide.runPythonAsync(wrapper);
+      return {
+        stdout: result.get(0),
+        stderr: result.get(1),
+      };
+    } finally {
+      pyodide.globals.delete("__codespace_source");
+      pyodide.globals.delete("__codespace_input");
+    }
   }
 
   async function runCode() {
-    if (running) return;
+    if (language !== "Python") {
+      setOutput(
+        `${language} execution is not enabled yet. Please select Python.`
+      );
+      setActiveTab("Output");
+      return;
+    }
 
-    setRunning(true);
-    setOutput("Running Python code...");
+    if (!pyodideReady) {
+      setOutput("Python is loading. Please wait and try again.");
+      setActiveTab("Output");
+      return;
+    }
+
+    setIsRunning(true);
+    setOutput("Running your code...");
     setTestResults([]);
+    setExecutionTime(null);
     setActiveTab("Output");
 
+    const input =
+      customInput.trim().length > 0
+        ? customInput
+        : selectedProblem.exampleInput;
+
+    const started = performance.now();
+
     try {
-      if (language !== "Python") {
-        setOutput(
-          "Real execution is currently available for Python only. Select Python to continue."
-        );
-        return;
-      }
-
-      const input =
-        customInput !== "" ? customInput : selectedProblem.exampleInput;
-
       const result = await executePython(code, input);
 
-      if (result.stderr) {
-        setOutput(
-          `${result.stdout}${result.stdout ? "\n" : ""}Error:\n${result.stderr}`
-        );
+      setExecutionTime(
+        `${(performance.now() - started).toFixed(2)} ms`
+      );
+
+      if (result.stderr.trim()) {
+        setOutput(result.stderr.trim());
       } else {
         setOutput(result.stdout || "(No output)");
       }
     } catch (error) {
-      setOutput(`Execution error:\n${error.message}`);
+      setOutput(error?.message || "An unexpected error occurred.");
     } finally {
-      setRunning(false);
+      setIsRunning(false);
     }
   }
 
   async function submitCode() {
-    if (running) return;
+    if (language !== "Python") {
+      setOutput(
+        `${language} execution is not enabled yet. Please select Python.`
+      );
+      setActiveTab("Output");
+      return;
+    }
 
-    setRunning(true);
-    setOutput("Running visible test cases...");
+    if (!pyodideReady) {
+      setOutput("Python is loading. Please wait and try again.");
+      setActiveTab("Output");
+      return;
+    }
+
+    setIsRunning(true);
+    setOutput("");
     setTestResults([]);
-    setActiveTab("Output");
+    setExecutionTime(null);
+    setActiveTab("Test Cases");
+
+    const results = [];
+    const started = performance.now();
 
     try {
-      if (language !== "Python") {
-        setOutput(
-          "Real execution is currently available for Python only. Select Python to continue."
-        );
-        return;
-      }
-
-      const results = [];
-
-      for (
-        let index = 0;
-        index < selectedProblem.testCases.length;
-        index++
-      ) {
+      for (let index = 0; index < selectedProblem.testCases.length; index++) {
         const test = selectedProblem.testCases[index];
 
         try {
           const result = await executePython(code, test.input);
           const actual = result.stdout.trim();
           const expected = test.expected.trim();
-
-          const passed =
-            !result.stderr && actual === expected;
+          const passed = !result.stderr.trim() && actual === expected;
 
           results.push({
             number: index + 1,
-            input: test.input,
-            expected: test.expected,
-            actual: result.stdout,
-            error: result.stderr,
-            status: passed
-              ? "Passed"
-              : result.stderr
-                ? "Runtime Error"
-                : "Wrong Answer",
             passed,
+            expected,
+            actual: result.stderr.trim()
+              ? result.stderr.trim()
+              : actual || "(No output)",
           });
         } catch (error) {
           results.push({
             number: index + 1,
-            input: test.input,
-            expected: test.expected,
-            actual: "",
-            error: error.message,
-            status: "Execution Error",
             passed: false,
+            expected: test.expected,
+            actual: error?.message || "Runtime error",
           });
         }
 
         setTestResults([...results]);
       }
 
-      const passedCount = results.filter(
-        (test) => test.passed
-      ).length;
+      const allPassed =
+        results.length > 0 && results.every((result) => result.passed);
 
-      setOutput(
-        `Visible test cases: ${passedCount}/${results.length} passed.\n` +
-          (passedCount === results.length
-            ? "All visible test cases passed!"
-            : "Some test cases failed. Check the results for details.")
+      setExecutionTime(
+        `${(performance.now() - started).toFixed(2)} ms`
       );
 
-      if (passedCount === results.length) {
+      if (allPassed) {
         setSolvedProblems((previous) =>
           previous.includes(selectedProblem.id)
             ? previous
             : [...previous, selectedProblem.id]
         );
+        setOutput("Accepted — all visible test cases passed!");
       } else {
-        setSolvedProblems((previous) =>
-          previous.filter((id) => id !== selectedProblem.id)
-        );
+        setOutput("Some test cases failed. Review the results and try again.");
       }
-    } catch (error) {
-      setOutput(`Submission error:\n${error.message}`);
     } finally {
-      setRunning(false);
+      setIsRunning(false);
     }
   }
 
-  function clearOutput() {
-    setOutput("");
-    setTestResults([]);
+  function toggleBookmark(problemId) {
+    setBookmarks((previous) =>
+      previous.includes(problemId)
+        ? previous.filter((id) => id !== problemId)
+        : [...previous, problemId]
+    );
   }
 
+  const filteredProblems = problems.filter((problem) => {
+    const matchesSearch = problem.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesFilter =
+      filter === "All" ||
+      (filter === "Solved" && solvedProblems.includes(problem.id)) ||
+      (filter === "Unsolved" && !solvedProblems.includes(problem.id)) ||
+      (filter === "Bookmarked" && bookmarks.includes(problem.id));
+
+    return matchesSearch && matchesFilter;
+  });
+
+  const progress = Math.round(
+    (solvedProblems.length / problems.length) * 100
+  );
+
   return (
-    <div className={`app ${darkMode ? "dark" : "light"}`}>
-      <header className="topbar">
+    <div className={`app ${darkMode ? "dark-mode" : "light-mode"}`}>
+      <header className="app-header">
         <div className="brand">
-          <div className="brand-icon">{"</>"}</div>
-          <div>
-            <h1>CodeSpace</h1>
-            <p>Practice. Code. Improve.</p>
-          </div>
+          <span className="brand-icon">{"</>"}</span>
+          <span>CodeSpace</span>
         </div>
 
-        <div className="topbar-right">
-          <div className="progress-info">
-            <span>Progress</span>
-            <strong>
-              {solvedProblems.length}/{problems.length} solved
-            </strong>
-          </div>
+        <div className="header-actions">
+          <span className="runtime-status">
+            <span
+              className={`status-dot ${pyodideReady ? "ready" : ""}`}
+            />
+            {pyodideReady
+              ? "Python ready"
+              : isLoading
+                ? "Loading Python..."
+                : "Python unavailable"}
+          </span>
 
           <button
-            className="theme-button"
-            onClick={() => setDarkMode(!darkMode)}
+            className="theme-toggle"
+            onClick={() => setDarkMode((previous) => !previous)}
             title="Toggle theme"
           >
-            {darkMode ? "☀️ Light" : "🌙 Dark"}
+            {darkMode ? "☀️ Light mode" : "🌙 Dark mode"}
           </button>
         </div>
       </header>
 
-      <main className="workspace">
-        <aside className="sidebar">
+      {pyodideError && (
+        <div className="runtime-error">
+          Python failed to load: {pyodideError}
+        </div>
+      )}
+
+      <div className="dashboard-summary">
+        <div>
+          <span className="summary-label">Problems solved</span>
+          <strong>
+            {solvedProblems.length} / {problems.length}
+          </strong>
+        </div>
+
+        <div className="progress-track">
+          <div
+            className="progress-fill"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+
+        <span className="progress-label">{progress}% complete</span>
+      </div>
+
+      <main className="app-layout">
+        <aside className="problem-sidebar">
           <div className="sidebar-heading">
             <h2>Problems</h2>
-            <span>{filteredProblems.length}</span>
+            <span className="problem-count">{problems.length}</span>
           </div>
 
           <input
-            className="search-input"
-            type="text"
+            className="problem-search"
+            type="search"
             placeholder="Search problems..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
 
-          <div className="filter-buttons">
-            {["All", "Unsolved", "Solved"].map((item) => (
+          <div className="problem-filters">
+            {["All", "Unsolved", "Solved", "Bookmarked"].map((item) => (
               <button
                 key={item}
                 className={filter === item ? "filter-active" : ""}
@@ -464,264 +557,251 @@ __cs_stderr_result = __cs_stderr_buffer.getvalue()
           </div>
 
           <div className="problem-list">
-            {filteredProblems.map((problem) => {
-              const isSolved = solvedProblems.includes(problem.id);
-              const isSelected = selectedProblem.id === problem.id;
-
-              return (
-                <button
-                  key={problem.id}
-                  className={`problem-item ${
-                    isSelected ? "problem-selected" : ""
-                  }`}
-                  onClick={() => selectProblem(problem)}
-                >
-                  <div className="problem-item-top">
-                    <span className="problem-number">
-                      {String(problem.id).padStart(2, "0")}
-                    </span>
-                    <span className="problem-check">
-                      {isSolved ? "✓" : ""}
-                    </span>
-                  </div>
-
-                  <strong>{problem.title}</strong>
-                  <span className="difficulty">
-                    {problem.difficulty}
+            {filteredProblems.map((problem) => (
+              <button
+                key={problem.id}
+                className={`problem-item ${
+                  selectedProblem.id === problem.id ? "selected" : ""
+                }`}
+                onClick={() => changeProblem(problem)}
+              >
+                <div className="problem-item-top">
+                  <span className="problem-number">
+                    {String(problem.id).padStart(2, "0")}
                   </span>
-                </button>
-              );
-            })}
+                  <span className="problem-title">{problem.title}</span>
+                  {solvedProblems.includes(problem.id) && (
+                    <span className="solved-mark">✓</span>
+                  )}
+                </div>
+
+                <div className="problem-item-bottom">
+                  <span className="difficulty">{problem.difficulty}</span>
+                  <span className="problem-topic">{problem.topic}</span>
+                  <span
+                    className="bookmark-button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleBookmark(problem.id);
+                    }}
+                    title="Bookmark problem"
+                  >
+                    {bookmarks.includes(problem.id) ? "★" : "☆"}
+                  </span>
+                </div>
+              </button>
+            ))}
 
             {filteredProblems.length === 0 && (
-              <p className="empty-message">No problems found.</p>
+              <p className="empty-state">No problems found.</p>
             )}
           </div>
         </aside>
 
-        <section className="description-panel">
-          <div className="panel-tabs">
-            {["Description", "Examples", "Output"].map((tab) => (
-              <button
-                key={tab}
-                className={activeTab === tab ? "tab-active" : ""}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {activeTab === "Description" ? (
-            <div className="problem-description">
-              <div className="title-row">
-                <h2>{selectedProblem.title}</h2>
-                <span className="difficulty-badge">
+        <section className="workspace">
+          <div className="problem-panel">
+            <div className="problem-header">
+              <div>
+                <h1>
+                  {String(selectedProblem.id).padStart(2, "0")}.{" "}
+                  {selectedProblem.title}
+                </h1>
+                <span className="difficulty">
                   {selectedProblem.difficulty}
                 </span>
               </div>
 
-              <p>{selectedProblem.description}</p>
-
-              <div className="description-section">
-                <h3>Instructions</h3>
-                <p>
-                  Write your solution in the editor. Read input from
-                  standard input and print your answer to standard
-                  output. Python code executes in your browser.
-                </p>
-              </div>
-
-              <div className="description-section">
-                <h3>Visible Test Cases</h3>
-                <p>
-                  This problem has {selectedProblem.testCases.length}{" "}
-                  visible test cases. Submit your code to check them.
-                </p>
-              </div>
-
-              <div className="hint-card">
-                <span>💡</span>
-                <p>
-                  Use Run Code to test your own input, or Submit Code
-                  to check all visible test cases.
-                </p>
-              </div>
-            </div>
-          ) : activeTab === "Examples" ? (
-            <div className="problem-description">
-              <h3>Example Input</h3>
-              <pre className="example-block">
-                {selectedProblem.exampleInput}
-              </pre>
-
-              <h3>Expected Output</h3>
-              <pre className="example-block">
-                {selectedProblem.exampleOutput}
-              </pre>
-            </div>
-          ) : (
-            <div className="problem-description output-view">
-              <h3>Execution Output</h3>
-              <pre className="example-block">
-                {output || "Run your code or submit it to see results."}
-              </pre>
-              <p>
-                {testResults.length > 0
-                  ? `${testResults.filter((test) => test.passed).length}/${testResults.length} visible tests passed.`
-                  : "Python execution results appear here."}
-              </p>
-            </div>
-          )}
-        </section>
-
-        <section className="editor-panel">
-          <div className="editor-toolbar">
-            <div className="editor-title">
-              <span className="editor-dot" />
-              <strong>Code Editor</strong>
+              <button
+                className="bookmark-action"
+                onClick={() => toggleBookmark(selectedProblem.id)}
+              >
+                {bookmarks.includes(selectedProblem.id)
+                  ? "★ Bookmarked"
+                  : "☆ Bookmark"}
+              </button>
             </div>
 
-            <select
-              value={language}
-              onChange={(event) =>
-                changeLanguage(event.target.value)
-              }
-              aria-label="Programming language"
-            >
-              {Object.keys(starterCodes).map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
+            <div className="content-tabs">
+              {["Description", "Examples", "Output"].map((tab) => (
+                <button
+                  key={tab}
+                  className={activeTab === tab ? "tab-active" : ""}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
               ))}
-            </select>
-          </div>
-
-          <div className="monaco-wrapper">
-            <Editor
-              height="350px"
-              language={editorLanguages[language]}
-              theme={darkMode ? "vs-dark" : "light"}
-              value={code}
-              onChange={(value) => setCode(value ?? "")}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                automaticLayout: true,
-                scrollBeyondLastLine: false,
-                wordWrap: "on",
-                padding: { top: 16 },
-                tabSize: 4,
-              }}
-            />
-          </div>
-
-          <div className="input-section">
-            <label htmlFor="custom-input">Custom Input</label>
-            <textarea
-              id="custom-input"
-              className="custom-input"
-              placeholder="Enter input here..."
-              value={customInput}
-              onChange={(event) =>
-                setCustomInput(event.target.value)
-              }
-              rows={3}
-            />
-          </div>
-
-          <div className="editor-actions">
-            <button
-              className="run-button"
-              onClick={runCode}
-              disabled={running || !pyodide}
-            >
-              {running
-                ? "Running..."
-                : !pyodide
-                  ? "Loading Python..."
-                  : "▶ Run Code"}
-            </button>
-
-            <button
-              className="submit-button"
-              onClick={submitCode}
-              disabled={running || !pyodide}
-            >
-              {running
-                ? "Checking..."
-                : !pyodide
-                  ? "Loading Python..."
-                  : "✓ Submit Code"}
-            </button>
-          </div>
-
-          <p className="prototype-note">
-            {runtimeError ||
-              (pyodide
-                ? "Python is ready. Java, C, and C++ execution is not enabled yet."
-                : "Loading Python runtime. Please wait...")}
-          </p>
-
-          <div className="console-panel">
-            <div className="console-heading">
-              <h3>Test Results &amp; Console</h3>
-              <button onClick={clearOutput}>Clear</button>
             </div>
 
-            {testResults.length > 0 && (
-              <div className="test-results-list">
-                {testResults.map((test) => (
+            <div className="problem-content">
+              {activeTab === "Description" && (
+                <>
+                  <p>{selectedProblem.description}</p>
+                  <h3>Topic</h3>
+                  <p>{selectedProblem.topic}</p>
+                  <h3>Example</h3>
+                  <pre>{selectedProblem.exampleInput}</pre>
+                  <h3>Expected output</h3>
+                  <pre>{selectedProblem.exampleOutput}</pre>
+                </>
+              )}
+
+              {activeTab === "Examples" && (
+                <>
+                  <h3>Sample input</h3>
+                  <pre>{selectedProblem.exampleInput}</pre>
+                  <h3>Sample output</h3>
+                  <pre>{selectedProblem.exampleOutput}</pre>
+                </>
+              )}
+
+              {activeTab === "Output" && (
+                <div className="execution-output">
+                  <h3>Execution Output</h3>
+                  <pre>{output || "Run your code to see the output."}</pre>
+                  {executionTime && (
+                    <p>Execution time: {executionTime}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="editor-panel">
+            <div className="editor-toolbar">
+              <div className="language-selector">
+                {languages.map((item) => (
+                  <button
+                    key={item}
+                    className={language === item ? "language-active" : ""}
+                    onClick={() => changeLanguage(item)}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+
+              <div className="editor-actions">
+                <button onClick={() => setFontSize((size) => Math.max(10, size - 1))}>
+                  A−
+                </button>
+                <button onClick={() => setFontSize((size) => Math.min(24, size + 1))}>
+                  A+
+                </button>
+                <button onClick={resetCode}>Reset Code</button>
+                <button onClick={() => navigator.clipboard?.writeText(code)}>
+                  Copy Code
+                </button>
+              </div>
+            </div>
+
+            <div className="code-editor">
+              <Editor
+                height="390px"
+                language={
+                  language === "C++"
+                    ? "cpp"
+                    : language.toLowerCase()
+                }
+                theme={darkMode ? "vs-dark" : "light"}
+                value={code}
+                onChange={(value) => updateCode(value ?? "")}
+                options={{
+                  fontSize,
+                  minimap: { enabled: false },
+                  automaticLayout: true,
+                  scrollBeyondLastLine: false,
+                  wordWrap: "on",
+                  tabSize: 4,
+                  padding: { top: 16 },
+                }}
+              />
+            </div>
+
+            <div className="input-panel">
+              <label htmlFor="custom-input">Custom Input</label>
+              <textarea
+                id="custom-input"
+                value={customInput}
+                onChange={(event) => setCustomInput(event.target.value)}
+                placeholder="Enter input for your program..."
+                rows={3}
+              />
+
+              <div className="run-actions">
+                <button
+                  className="run-button"
+                  onClick={runCode}
+                  disabled={isRunning || !pyodideReady}
+                >
+                  {isRunning ? "Running..." : "▶ Run Code"}
+                </button>
+
+                <button
+                  className="submit-button"
+                  onClick={submitCode}
+                  disabled={isRunning || !pyodideReady}
+                >
+                  {isRunning ? "Testing..." : "✓ Submit Code"}
+                </button>
+              </div>
+            </div>
+
+            <div className="test-results-panel">
+              <div className="test-results-heading">
+                <h3>Test Results</h3>
+                {testResults.length > 0 && (
+                  <span>
+                    {testResults.filter((test) => test.passed).length} /{" "}
+                    {testResults.length} passed
+                  </span>
+                )}
+              </div>
+
+              {testResults.length === 0 ? (
+                <p className="empty-state">
+                  Submit your solution to see test results.
+                </p>
+              ) : (
+                testResults.map((test) => (
                   <div
                     key={test.number}
                     className={`test-result ${
                       test.passed ? "test-passed" : "test-failed"
                     }`}
                   >
-                    <div className="test-result-heading">
-                      <strong>Test Case {test.number}</strong>
-                      <span className="test-status">
-                        {test.status}
-                      </span>
+                    <strong>
+                      {test.passed ? "✓" : "✗"} Test Case {test.number}
+                    </strong>
+
+                    <div>
+                      <span>Expected: </span>
+                      <code>{test.expected}</code>
                     </div>
 
-                    <div className="test-result-details">
-                      <p>
-                        <strong>Input:</strong>
-                        <code>{test.input || "(empty)"}</code>
-                      </p>
-                      <p>
-                        <strong>Expected:</strong>
-                        <code>{test.expected || "(empty)"}</code>
-                      </p>
-                      <p>
-                        <strong>Actual:</strong>
-                        <code>{test.actual || "(no output)"}</code>
-                      </p>
+                    <div>
+                      <span>Actual: </span>
+                      <code>{test.actual}</code>
                     </div>
-
-                    {test.error && (
-                      <pre className="test-error">{test.error}</pre>
-                    )}
                   </div>
-                ))}
-              </div>
-            )}
+                ))
+              )}
 
-            <div className="console-subheading">
-              <h4>Console Output</h4>
+              {output && (
+                <p className="submission-message">{output}</p>
+              )}
             </div>
-
-            <pre className="console-output">
-              {output || "Run your code to see the output here."}
-            </pre>
           </div>
         </section>
       </main>
 
       <footer className="app-footer">
-        <span>CodeSpace</span>
-        <span>Keep learning, keep coding ✨</span>
+        CodeSpace · Practice, learn, and improve every day.
+        <span>
+          {pyodideReady
+            ? "Python execution enabled"
+            : "Python runtime loading"}
+        </span>
       </footer>
     </div>
   );
