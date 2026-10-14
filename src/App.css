@@ -120,6 +120,11 @@ button:disabled {
   font-size: 25px;
   font-weight: 800;
   letter-spacing: -1px;
+  color: var(--text);
+}
+
+.app.dark-mode .brand h1 {
+  color: #a99bff;
 }
 
 .brand p {
@@ -952,4 +957,113 @@ button:disabled {
   background: linear-gradient(135deg, #dc2626, #991b1b) !important;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Keep CodeSpace title visible in both themes */
+.brand h1 {
+  color: var(--text);
+}
+
+/* Better title visibility in dark mode */
+.app.dark-mode .brand h1 {
+  color: #a99bff;
+}
+
+/* Green Run button */
+.editor-toolbar .run-button,
+.editor-actions .run-button,
+.button-row .run-button,
+.success-button {
+  color: #ffffff !important;
+  background: #16a34a !important;
+  border: 1px solid #16a34a !important;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.editor-toolbar .run-button:hover,
+.editor-actions .run-button:hover,
+.button-row .run-button:hover,
+.success-button:hover {
+  background: #15803d !important;
+  border-color: #15803d !important;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+}
+
+/* Red Submit button */
+.editor-toolbar .submit-button,
+.editor-actions .submit-button,
+.button-row .submit-button,
+.danger-button {
+  color: #ffffff !important;
+  background: #dc2626 !important;
+  border: 1px solid #dc2626 !important;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.editor-toolbar .submit-button:hover,
+.editor-actions .submit-button:hover,
+.button-row .submit-button:hover,
+.danger-button:hover {
+  background: #b91c1c !important;
+  border-color: #b91c1c !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* Keep button text readable in dark mode */
+.app.dark-mode .editor-toolbar .run-button,
+.app.dark-mode .editor-toolbar .submit-button,
+.app.dark-mode .editor-actions .run-button,
+.app.dark-mode .editor-actions .submit-button {
+  color: #ffffff !important;
+}
+
+/* Smooth transitions */
+.editor-toolbar button,
+.editor-actions button {
+  transition: all 0.2s ease;
+}
+
+.editor-toolbar button:disabled,
+.editor-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Run button - green */
+.app .run-button {
+  color: #ffffff !important;
+  background: #16a34a !important;
+  border: 1px solid #16a34a !important;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.app .run-button:hover:not(:disabled) {
+  background: #15803d !important;
+  border-color: #15803d !important;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+}
+
+/* Submit button - red */
+.app .submit-button {
+  color: #ffffff !important;
+  background: #dc2626 !important;
+  border: 1px solid #dc2626 !important;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.app .submit-button:hover:not(:disabled) {
+  background: #b91c1c !important;
+  border-color: #b91c1c !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* Keep buttons readable in both themes */
+.app.dark-mode .run-button,
+.app.dark-mode .submit-button {
+  color: #ffffff !important;
 }
