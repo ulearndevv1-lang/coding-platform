@@ -6,16 +6,10 @@ import "./App.css";
 
 const problems = [
   {
-    id: 1,
-    title: "Two Sum",
-    difficulty: "Easy",
-    topic: "Arrays",
-    description:
-      "Given a list of integers and a target, find the indices of two numbers whose sum equals the target.",
-    starterCode:
-      "nums = list(map(int, input().split()))\ntarget = int(input())\n\nfor i in range(len(nums)):\n    for j in range(i + 1, len(nums)):\n        if nums[i] + nums[j] == target:\n            print(i, j)\n            break\n    else:\n        continue\n    break",
-    exampleInput: "2 7 11 15\n9",
-    exampleOutput: "0 1",
+    id: 1, title: "Two Sum", difficulty: "Easy", topic: "Arrays",
+    description: "Given a list of integers and a target, find the indices of two numbers whose sum equals the target.",
+    starterCode: "nums = list(map(int, input().split()))\ntarget = int(input())\n\nfor i in range(len(nums)):\n    for j in range(i + 1, len(nums)):\n        if nums[i] + nums[j] == target:\n            print(i, j)\n            break\n    else:\n        continue\n    break",
+    exampleInput: "2 7 11 15\n9", exampleOutput: "0 1",
     testCases: [
       { input: "2 7 11 15\n9", expected: "0 1" },
       { input: "3 2 4\n6", expected: "1 2" },
@@ -23,16 +17,10 @@ const problems = [
     ],
   },
   {
-    id: 2,
-    title: "Reverse a String",
-    difficulty: "Easy",
-    topic: "Strings",
-    description:
-      "Read a string and print the characters in reverse order.",
-    starterCode:
-      'text = input()\nprint(text[::-1])',
-    exampleInput: "hello",
-    exampleOutput: "olleh",
+    id: 2, title: "Reverse a String", difficulty: "Easy", topic: "Strings",
+    description: "Read a string and print the characters in reverse order.",
+    starterCode: 'text = input()\nprint(text[::-1])',
+    exampleInput: "hello", exampleOutput: "olleh",
     testCases: [
       { input: "hello", expected: "olleh" },
       { input: "Python", expected: "nohtyP" },
@@ -40,16 +28,10 @@ const problems = [
     ],
   },
   {
-    id: 3,
-    title: "Check Prime Number",
-    difficulty: "Easy",
-    topic: "Math",
-    description:
-      "Read an integer and print True if it is prime, otherwise print False.",
-    starterCode:
-      "n = int(input())\n\nis_prime = n >= 2\nfor i in range(2, int(n ** 0.5) + 1):\n    if n % i == 0:\n        is_prime = False\n        break\n\nprint(is_prime)",
-    exampleInput: "7",
-    exampleOutput: "True",
+    id: 3, title: "Check Prime Number", difficulty: "Easy", topic: "Math",
+    description: "Read an integer and print True if it is prime, otherwise print False.",
+    starterCode: "n = int(input())\n\nis_prime = n >= 2\nfor i in range(2, int(n ** 0.5) + 1):\n    if n % i == 0:\n        is_prime = False\n        break\n\nprint(is_prime)",
+    exampleInput: "7", exampleOutput: "True",
     testCases: [
       { input: "7", expected: "True" },
       { input: "10", expected: "False" },
@@ -58,16 +40,10 @@ const problems = [
     ],
   },
   {
-    id: 4,
-    title: "Find Maximum",
-    difficulty: "Easy",
-    topic: "Arrays",
-    description:
-      "Read a space-separated list of integers and print the largest number.",
-    starterCode:
-      "nums = list(map(int, input().split()))\nprint(max(nums))",
-    exampleInput: "10 25 7 42 18",
-    exampleOutput: "42",
+    id: 4, title: "Find Maximum", difficulty: "Easy", topic: "Arrays",
+    description: "Read a space-separated list of integers and print the largest number.",
+    starterCode: "nums = list(map(int, input().split()))\nprint(max(nums))",
+    exampleInput: "10 25 7 42 18", exampleOutput: "42",
     testCases: [
       { input: "10 25 7 42 18", expected: "42" },
       { input: "-5 -2 -10", expected: "-2" },
@@ -75,32 +51,21 @@ const problems = [
     ],
   },
   {
-    id: 5,
-    title: "Fibonacci Sequence",
-    difficulty: "Easy",
-    topic: "Loops",
-    description:
-      "Read n and print the first n Fibonacci numbers, starting with 0 and 1, separated by spaces.",
-    starterCode:
-      "n = int(input())\na, b = 0, 1\nresult = []\n\nfor _ in range(n):\n    result.append(a)\n    a, b = b, a + b\n\nprint(*result)",
-    exampleInput: "7",
-    exampleOutput: "0 1 1 2 3 5 8",
+    id: 5, title: "Fibonacci Sequence", difficulty: "Easy", topic: "Loops",
+    description: "Read n and print the first n Fibonacci numbers, starting with 0 and 1, separated by spaces.",
+    starterCode: "n = int(input())\na, b = 0, 1\nresult = []\n\nfor _ in range(n):\n    result.append(a)\n    a, b = b, a + b\n\nprint(*result)",
+    exampleInput: "7", exampleOutput: "0 1 1 2 3 5 8",
     testCases: [
       { input: "7", expected: "0 1 1 2 3 5 8" },
       { input: "1", expected: "0" },
       { input: "5", expected: "0 1 1 2 3" },
     ],
   },
-
   {
-    id: 6,
-    title: "Palindrome Number",
-    difficulty: "Easy",
-    topic: "Strings",
+    id: 6, title: "Palindrome Number", difficulty: "Easy", topic: "Strings",
     description: "Check whether a given string reads the same forward and backward.",
     starterCode: "s = input().strip()\nprint(s == s[::-1])",
-    exampleInput: "madam",
-    exampleOutput: "True",
+    exampleInput: "madam", exampleOutput: "True",
     testCases: [
       { input: "madam", expected: "True" },
       { input: "hello", expected: "False" },
@@ -108,14 +73,10 @@ const problems = [
     ],
   },
   {
-    id: 7,
-    title: "Count Vowels",
-    difficulty: "Easy",
-    topic: "Strings",
+    id: 7, title: "Count Vowels", difficulty: "Easy", topic: "Strings",
     description: "Count the vowels (a, e, i, o, u) in a string, ignoring case.",
     starterCode: "s = input().lower()\nprint(sum(1 for ch in s if ch in 'aeiou'))",
-    exampleInput: "Hello World",
-    exampleOutput: "3",
+    exampleInput: "Hello World", exampleOutput: "3",
     testCases: [
       { input: "Hello World", expected: "3" },
       { input: "AEIOU", expected: "5" },
@@ -123,14 +84,10 @@ const problems = [
     ],
   },
   {
-    id: 8,
-    title: "Factorial",
-    difficulty: "Easy",
-    topic: "Math",
+    id: 8, title: "Factorial", difficulty: "Easy", topic: "Math",
     description: "Calculate the factorial of a non-negative integer n.",
     starterCode: "n = int(input())\nresult = 1\nfor i in range(2, n + 1):\n    result *= i\nprint(result)",
-    exampleInput: "5",
-    exampleOutput: "120",
+    exampleInput: "5", exampleOutput: "120",
     testCases: [
       { input: "5", expected: "120" },
       { input: "0", expected: "1" },
@@ -138,14 +95,10 @@ const problems = [
     ],
   },
   {
-    id: 9,
-    title: "Sum of Digits",
-    difficulty: "Easy",
-    topic: "Math",
+    id: 9, title: "Sum of Digits", difficulty: "Easy", topic: "Math",
     description: "Find the sum of the digits of a non-negative integer.",
     starterCode: "n = input().strip()\nprint(sum(int(digit) for digit in n))",
-    exampleInput: "1234",
-    exampleOutput: "10",
+    exampleInput: "1234", exampleOutput: "10",
     testCases: [
       { input: "1234", expected: "10" },
       { input: "999", expected: "27" },
@@ -153,14 +106,10 @@ const problems = [
     ],
   },
   {
-    id: 10,
-    title: "Count Even Numbers",
-    difficulty: "Easy",
-    topic: "Arrays",
+    id: 10, title: "Count Even Numbers", difficulty: "Easy", topic: "Arrays",
     description: "Count how many even integers are present in a space-separated list.",
     starterCode: "nums = list(map(int, input().split()))\nprint(sum(1 for n in nums if n % 2 == 0))",
-    exampleInput: "1 2 3 4 6",
-    exampleOutput: "3",
+    exampleInput: "1 2 3 4 6", exampleOutput: "3",
     testCases: [
       { input: "1 2 3 4 6", expected: "3" },
       { input: "1 3 5", expected: "0" },
@@ -168,14 +117,10 @@ const problems = [
     ],
   },
   {
-    id: 11,
-    title: "Second Largest Number",
-    difficulty: "Medium",
-    topic: "Arrays",
+    id: 11, title: "Second Largest Number", difficulty: "Medium", topic: "Arrays",
     description: "Find the second-largest distinct number in a list. Assume at least two distinct values exist.",
     starterCode: "nums = list(map(int, input().split()))\nunique_nums = sorted(set(nums))\nprint(unique_nums[-2])",
-    exampleInput: "10 5 8 20 20",
-    exampleOutput: "10",
+    exampleInput: "10 5 8 20 20", exampleOutput: "10",
     testCases: [
       { input: "10 5 8 20 20", expected: "10" },
       { input: "1 3 2", expected: "2" },
@@ -183,14 +128,10 @@ const problems = [
     ],
   },
   {
-    id: 12,
-    title: "Remove Duplicates",
-    difficulty: "Medium",
-    topic: "Arrays",
+    id: 12, title: "Remove Duplicates", difficulty: "Medium", topic: "Arrays",
     description: "Remove duplicate integers while preserving their first-occurrence order.",
     starterCode: "nums = list(map(int, input().split()))\nresult = list(dict.fromkeys(nums))\nprint(*result)",
-    exampleInput: "1 2 2 3 1 4",
-    exampleOutput: "1 2 3 4",
+    exampleInput: "1 2 2 3 1 4", exampleOutput: "1 2 3 4",
     testCases: [
       { input: "1 2 2 3 1 4", expected: "1 2 3 4" },
       { input: "5 5 5", expected: "5" },
@@ -198,14 +139,10 @@ const problems = [
     ],
   },
   {
-    id: 13,
-    title: "Anagram Check",
-    difficulty: "Medium",
-    topic: "Strings",
+    id: 13, title: "Anagram Check", difficulty: "Medium", topic: "Strings",
     description: "Check whether two strings contain the same letters with the same frequencies. Ignore spaces and case.",
     starterCode: "a = ''.join(input().lower().split())\nb = ''.join(input().lower().split())\nprint(sorted(a) == sorted(b))",
-    exampleInput: "listen\nsilent",
-    exampleOutput: "True",
+    exampleInput: "listen\nsilent", exampleOutput: "True",
     testCases: [
       { input: "listen\nsilent", expected: "True" },
       { input: "hello\nworld", expected: "False" },
@@ -213,14 +150,10 @@ const problems = [
     ],
   },
   {
-    id: 14,
-    title: "Binary Search",
-    difficulty: "Medium",
-    topic: "Searching",
+    id: 14, title: "Binary Search", difficulty: "Medium", topic: "Searching",
     description: "Find the index of a target in a sorted list. Print -1 if it is absent.",
     starterCode: "nums = list(map(int, input().split()))\ntarget = int(input())\nleft, right = 0, len(nums) - 1\nanswer = -1\nwhile left <= right:\n    mid = (left + right) // 2\n    if nums[mid] == target:\n        answer = mid\n        break\n    elif nums[mid] < target:\n        left = mid + 1\n    else:\n        right = mid - 1\nprint(answer)",
-    exampleInput: "1 3 5 7 9\n7",
-    exampleOutput: "3",
+    exampleInput: "1 3 5 7 9\n7", exampleOutput: "3",
     testCases: [
       { input: "1 3 5 7 9\n7", expected: "3" },
       { input: "2 4 6 8\n5", expected: "-1" },
@@ -228,14 +161,10 @@ const problems = [
     ],
   },
   {
-    id: 15,
-    title: "Missing Number",
-    difficulty: "Medium",
-    topic: "Arrays",
+    id: 15, title: "Missing Number", difficulty: "Medium", topic: "Arrays",
     description: "A list contains distinct numbers from 0 to n with one number missing. Find the missing number.",
     starterCode: "nums = list(map(int, input().split()))\nn = len(nums)\nprint(n * (n + 1) // 2 - sum(nums))",
-    exampleInput: "3 0 1",
-    exampleOutput: "2",
+    exampleInput: "3 0 1", exampleOutput: "2",
     testCases: [
       { input: "3 0 1", expected: "2" },
       { input: "0 1", expected: "2" },
@@ -243,14 +172,10 @@ const problems = [
     ],
   },
   {
-    id: 16,
-    title: "Valid Parentheses",
-    difficulty: "Medium",
-    topic: "Stacks",
+    id: 16, title: "Valid Parentheses", difficulty: "Medium", topic: "Stacks",
     description: "Check whether brackets (), [], and {} are correctly matched and nested.",
     starterCode: "s = input().strip()\nstack = []\npairs = {')': '(', ']': '[', '}': '{'}\nvalid = True\nfor ch in s:\n    if ch in '([{':\n        stack.append(ch)\n    elif ch in pairs:\n        if not stack or stack.pop() != pairs[ch]:\n            valid = False\n            break\nprint(valid and not stack)",
-    exampleInput: "({[]})",
-    exampleOutput: "True",
+    exampleInput: "({[]})", exampleOutput: "True",
     testCases: [
       { input: "({[]})", expected: "True" },
       { input: "([)]", expected: "False" },
@@ -258,14 +183,10 @@ const problems = [
     ],
   },
   {
-    id: 17,
-    title: "Merge Sorted Arrays",
-    difficulty: "Medium",
-    topic: "Arrays",
+    id: 17, title: "Merge Sorted Arrays", difficulty: "Medium", topic: "Arrays",
     description: "Merge two space-separated sorted lists into one sorted list.",
     starterCode: "a = list(map(int, input().split()))\nb = list(map(int, input().split()))\nprint(*sorted(a + b))",
-    exampleInput: "1 3 5\n2 4 6",
-    exampleOutput: "1 2 3 4 5 6",
+    exampleInput: "1 3 5\n2 4 6", exampleOutput: "1 2 3 4 5 6",
     testCases: [
       { input: "1 3 5\n2 4 6", expected: "1 2 3 4 5 6" },
       { input: "1 2\n3 4", expected: "1 2 3 4" },
@@ -273,14 +194,10 @@ const problems = [
     ],
   },
   {
-    id: 18,
-    title: "Longest Word",
-    difficulty: "Easy",
-    topic: "Strings",
+    id: 18, title: "Longest Word", difficulty: "Easy", topic: "Strings",
     description: "Print the longest word in a sentence. If tied, print the first longest word.",
     starterCode: "words = input().split()\nprint(max(words, key=len) if words else '')",
-    exampleInput: "Python is very powerful",
-    exampleOutput: "powerful",
+    exampleInput: "Python is very powerful", exampleOutput: "powerful",
     testCases: [
       { input: "Python is very powerful", expected: "powerful" },
       { input: "cat dog elephant", expected: "elephant" },
@@ -288,14 +205,10 @@ const problems = [
     ],
   },
   {
-    id: 19,
-    title: "GCD of Two Numbers",
-    difficulty: "Medium",
-    topic: "Math",
+    id: 19, title: "GCD of Two Numbers", difficulty: "Medium", topic: "Math",
     description: "Find the greatest common divisor of two non-negative integers.",
     starterCode: "import math\na, b = map(int, input().split())\nprint(math.gcd(a, b))",
-    exampleInput: "24 36",
-    exampleOutput: "12",
+    exampleInput: "24 36", exampleOutput: "12",
     testCases: [
       { input: "24 36", expected: "12" },
       { input: "7 13", expected: "1" },
@@ -303,21 +216,16 @@ const problems = [
     ],
   },
   {
-    id: 20,
-    title: "Power of Two",
-    difficulty: "Easy",
-    topic: "Math",
+    id: 20, title: "Power of Two", difficulty: "Easy", topic: "Math",
     description: "Determine whether a positive integer is a power of two.",
     starterCode: "n = int(input())\nprint(n > 0 and (n & (n - 1)) == 0)",
-    exampleInput: "16",
-    exampleOutput: "True",
+    exampleInput: "16", exampleOutput: "True",
     testCases: [
       { input: "16", expected: "True" },
       { input: "18", expected: "False" },
       { input: "1", expected: "True" },
     ],
   },
-
 ];
 
 const languages = ["Python", "Java", "C", "C++"];
@@ -341,31 +249,24 @@ function readSaved(key, fallback) {
 function App() {
   const [selectedProblem, setSelectedProblem] = useState(problems[0]);
   const [language, setLanguage] = useState("Python");
-
   const [codeDrafts, setCodeDrafts] = useState(() =>
     readSaved("codespace-code-drafts", {})
   );
-
-  const [code, setCode] = useState(
-    () =>
-      readSaved("codespace-code-drafts", {})["1:Python"] ??
-      problems[0].starterCode
-  );
-
+  const [code, setCode] = useState(() => {
+    const drafts = readSaved("codespace-code-drafts", {});
+    return drafts["1:Python"] ?? problems[0].starterCode;
+  });
   const [solvedProblems, setSolvedProblems] = useState(() =>
     readSaved("codespace-solved", [])
   );
-
   const [bookmarks, setBookmarks] = useState(() =>
     readSaved("codespace-bookmarks", [])
   );
-
-  const [customInput, setCustomInput] = useState(
-    problems[0].exampleInput
-  );
-
+  const [customInput, setCustomInput] = useState(problems[0].exampleInput);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+  const [topicFilter, setTopicFilter] = useState("All");
+  const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [activeTab, setActiveTab] = useState("Description");
   const [output, setOutput] = useState("");
   const [testResults, setTestResults] = useState([]);
@@ -376,28 +277,18 @@ function App() {
   const [executionTime, setExecutionTime] = useState(null);
   const [pyodideReady, setPyodideReady] = useState(false);
   const [pyodideError, setPyodideError] = useState("");
-
   const pyodideRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem(
-      "codespace-code-drafts",
-      JSON.stringify(codeDrafts)
-    );
+    localStorage.setItem("codespace-code-drafts", JSON.stringify(codeDrafts));
   }, [codeDrafts]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "codespace-solved",
-      JSON.stringify(solvedProblems)
-    );
+    localStorage.setItem("codespace-solved", JSON.stringify(solvedProblems));
   }, [solvedProblems]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "codespace-bookmarks",
-      JSON.stringify(bookmarks)
-    );
+    localStorage.setItem("codespace-bookmarks", JSON.stringify(bookmarks));
   }, [bookmarks]);
 
   useEffect(() => {
@@ -406,7 +297,6 @@ function App() {
     async function initializePython() {
       try {
         setIsLoading(true);
-
         const instance = await loadPyodide({
           indexURL: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
         });
@@ -418,19 +308,14 @@ function App() {
         }
       } catch (error) {
         if (!cancelled) {
-          setPyodideError(
-            error?.message || "Unable to load the Python runtime."
-          );
+          setPyodideError(error?.message || "Unable to load the Python runtime.");
         }
       } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
+        if (!cancelled) setIsLoading(false);
       }
     }
 
     initializePython();
-
     return () => {
       cancelled = true;
     };
@@ -438,17 +323,12 @@ function App() {
 
   function changeProblem(problem) {
     setSelectedProblem(problem);
-
     const key = `${problem.id}:${language}`;
-    const drafts = codeDrafts;
 
     setCode(
-      drafts[key] ??
-        (language === "Python"
-          ? problem.starterCode
-          : starterCodes[language])
+      codeDrafts[key] ??
+        (language === "Python" ? problem.starterCode : starterCodes[language])
     );
-
     setCustomInput(problem.exampleInput);
     setOutput("");
     setTestResults([]);
@@ -458,7 +338,6 @@ function App() {
 
   function changeLanguage(nextLanguage) {
     setLanguage(nextLanguage);
-
     const key = `${selectedProblem.id}:${nextLanguage}`;
 
     setCode(
@@ -467,7 +346,6 @@ function App() {
           ? selectedProblem.starterCode
           : starterCodes[nextLanguage])
     );
-
     setOutput("");
     setTestResults([]);
     setExecutionTime(null);
@@ -475,7 +353,6 @@ function App() {
 
   function updateCode(nextCode) {
     setCode(nextCode);
-
     setCodeDrafts((previous) => ({
       ...previous,
       [`${selectedProblem.id}:${language}`]: nextCode,
@@ -483,71 +360,53 @@ function App() {
   }
 
   function resetCode() {
-    const initialCode =
+    updateCode(
       language === "Python"
         ? selectedProblem.starterCode
-        : starterCodes[language];
-
-    updateCode(initialCode);
+        : starterCodes[language]
+    );
     setOutput("");
     setTestResults([]);
   }
 
   async function executePython(source, input) {
     const pyodide = pyodideRef.current;
-
-    if (!pyodide) {
-      throw new Error("Python is still loading. Please try again.");
-    }
-
-    pyodide.setStdout({ batched: () => {} });
-    pyodide.setStderr({ batched: () => {} });
+    if (!pyodide) throw new Error("Python is still loading. Please try again.");
 
     pyodide.globals.set("__codespace_source", source);
     pyodide.globals.set("__codespace_input", input);
 
     const wrapper = `
-import sys
-import io
-import traceback
+import sys, io, traceback
 
-_codespace_stdout = io.StringIO()
-_codespace_stderr = io.StringIO()
-_codespace_old_stdin = sys.stdin
-_codespace_old_stdout = sys.stdout
-_codespace_old_stderr = sys.stderr
+_out = io.StringIO()
+_err = io.StringIO()
+_old_stdin, _old_stdout, _old_stderr = sys.stdin, sys.stdout, sys.stderr
 
 try:
     sys.stdin = io.StringIO(__codespace_input)
-    sys.stdout = _codespace_stdout
-    sys.stderr = _codespace_stderr
-
-    exec(
-        compile(__codespace_source, "<CodeSpace>", "exec"),
-        {"__name__": "__main__"}
-    )
-
+    sys.stdout = _out
+    sys.stderr = _err
+    exec(compile(__codespace_source, "<CodeSpace>", "exec"), {"__name__": "__main__"})
 except SystemExit:
     pass
 except Exception:
-    traceback.print_exc(file=_codespace_stderr)
+    traceback.print_exc(file=_err)
 finally:
-    sys.stdin = _codespace_old_stdin
-    sys.stdout = _codespace_old_stdout
-    sys.stderr = _codespace_old_stderr
+    sys.stdin, sys.stdout, sys.stderr = _old_stdin, _old_stdout, _old_stderr
 
-_codespace_result = _codespace_stdout.getvalue()
-_codespace_error = _codespace_stderr.getvalue()
-(_codespace_result, _codespace_error)
+(_out.getvalue(), _err.getvalue())
 `;
 
+    let result;
     try {
-      const result = await pyodide.runPythonAsync(wrapper);
+      result = await pyodide.runPythonAsync(wrapper);
       return {
         stdout: result.get(0),
         stderr: result.get(1),
       };
     } finally {
+      if (result && typeof result.destroy === "function") result.destroy();
       pyodide.globals.delete("__codespace_source");
       pyodide.globals.delete("__codespace_input");
     }
@@ -555,9 +414,7 @@ _codespace_error = _codespace_stderr.getvalue()
 
   async function runCode() {
     if (language !== "Python") {
-      setOutput(
-        `${language} execution is not enabled yet. Please select Python.`
-      );
+      setOutput(`${language} execution is not enabled yet. Please select Python.`);
       setActiveTab("Output");
       return;
     }
@@ -574,25 +431,13 @@ _codespace_error = _codespace_stderr.getvalue()
     setExecutionTime(null);
     setActiveTab("Output");
 
-    const input =
-      customInput.trim().length > 0
-        ? customInput
-        : selectedProblem.exampleInput;
-
+    const input = customInput.trim() ? customInput : selectedProblem.exampleInput;
     const started = performance.now();
 
     try {
       const result = await executePython(code, input);
-
-      setExecutionTime(
-        `${(performance.now() - started).toFixed(2)} ms`
-      );
-
-      if (result.stderr.trim()) {
-        setOutput(result.stderr.trim());
-      } else {
-        setOutput(result.stdout || "(No output)");
-      }
+      setExecutionTime(`${(performance.now() - started).toFixed(2)} ms`);
+      setOutput(result.stderr.trim() || result.stdout || "(No output)");
     } catch (error) {
       setOutput(error?.message || "An unexpected error occurred.");
     } finally {
@@ -602,9 +447,7 @@ _codespace_error = _codespace_stderr.getvalue()
 
   async function submitCode() {
     if (language !== "Python") {
-      setOutput(
-        `${language} execution is not enabled yet. Please select Python.`
-      );
+      setOutput(`${language} execution is not enabled yet. Please select Python.`);
       setActiveTab("Output");
       return;
     }
@@ -632,15 +475,11 @@ _codespace_error = _codespace_stderr.getvalue()
           const result = await executePython(code, test.input);
           const actual = result.stdout.trim();
           const expected = test.expected.trim();
-          const passed = !result.stderr.trim() && actual === expected;
-
           results.push({
             number: index + 1,
-            passed,
+            passed: !result.stderr.trim() && actual === expected,
             expected,
-            actual: result.stderr.trim()
-              ? result.stderr.trim()
-              : actual || "(No output)",
+            actual: result.stderr.trim() || actual || "(No output)",
           });
         } catch (error) {
           results.push({
@@ -654,12 +493,9 @@ _codespace_error = _codespace_stderr.getvalue()
         setTestResults([...results]);
       }
 
-      const allPassed =
-        results.length > 0 && results.every((result) => result.passed);
+      const allPassed = results.length > 0 && results.every((item) => item.passed);
 
-      setExecutionTime(
-        `${(performance.now() - started).toFixed(2)} ms`
-      );
+      setExecutionTime(`${(performance.now() - started).toFixed(2)} ms`);
 
       if (allPassed) {
         setSolvedProblems((previous) =>
@@ -684,23 +520,43 @@ _codespace_error = _codespace_stderr.getvalue()
     );
   }
 
-  const filteredProblems = problems.filter((problem) => {
-    const matchesSearch = problem.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  const topics = ["All", ...new Set(problems.map((problem) => problem.topic))];
+  const difficulties = [
+    "All",
+    ...new Set(problems.map((problem) => problem.difficulty)),
+  ];
 
-    const matchesFilter =
+  const filteredProblems = problems.filter((problem) => {
+    const query = search.toLowerCase().trim();
+
+    const matchesSearch =
+      problem.title.toLowerCase().includes(query) ||
+      problem.description.toLowerCase().includes(query) ||
+      problem.topic.toLowerCase().includes(query);
+
+    const matchesStatus =
       filter === "All" ||
       (filter === "Solved" && solvedProblems.includes(problem.id)) ||
       (filter === "Unsolved" && !solvedProblems.includes(problem.id)) ||
       (filter === "Bookmarked" && bookmarks.includes(problem.id));
 
-    return matchesSearch && matchesFilter;
+    const matchesTopic =
+      topicFilter === "All" || problem.topic === topicFilter;
+
+    const matchesDifficulty =
+      difficultyFilter === "All" || problem.difficulty === difficultyFilter;
+
+    return matchesSearch && matchesStatus && matchesTopic && matchesDifficulty;
   });
 
-  const progress = Math.round(
-    (solvedProblems.length / problems.length) * 100
-  );
+  const progress = Math.round((solvedProblems.length / problems.length) * 100);
+
+  function clearFilters() {
+    setSearch("");
+    setFilter("All");
+    setTopicFilter("All");
+    setDifficultyFilter("All");
+  }
 
   return (
     <div className={`app ${darkMode ? "dark-mode" : "light-mode"}`}>
@@ -712,16 +568,13 @@ _codespace_error = _codespace_stderr.getvalue()
 
         <div className="header-actions">
           <span className="runtime-status">
-            <span
-              className={`status-dot ${pyodideReady ? "ready" : ""}`}
-            />
+            <span className={`status-dot ${pyodideReady ? "ready" : ""}`} />
             {pyodideReady
               ? "Python ready"
               : isLoading
                 ? "Loading Python..."
                 : "Python unavailable"}
           </span>
-
           <button
             className="theme-toggle"
             onClick={() => setDarkMode((previous) => !previous)}
@@ -733,26 +586,17 @@ _codespace_error = _codespace_stderr.getvalue()
       </header>
 
       {pyodideError && (
-        <div className="runtime-error">
-          Python failed to load: {pyodideError}
-        </div>
+        <div className="runtime-error">Python failed to load: {pyodideError}</div>
       )}
 
       <div className="dashboard-summary">
         <div>
           <span className="summary-label">Problems solved</span>
-          <strong>
-            {solvedProblems.length} / {problems.length}
-          </strong>
+          <strong>{solvedProblems.length} / {problems.length}</strong>
         </div>
-
         <div className="progress-track">
-          <div
-            className="progress-fill"
-            style={{ width: `${progress}%` }}
-          />
+          <div className="progress-fill" style={{ width: `${progress}%` }} />
         </div>
-
         <span className="progress-label">{progress}% complete</span>
       </div>
 
@@ -760,13 +604,13 @@ _codespace_error = _codespace_stderr.getvalue()
         <aside className="problem-sidebar">
           <div className="sidebar-heading">
             <h2>Problems</h2>
-            <span className="problem-count">{problems.length}</span>
+            <span className="problem-count">{filteredProblems.length}/{problems.length}</span>
           </div>
 
           <input
             className="problem-search"
             type="search"
-            placeholder="Search problems..."
+            placeholder="Search title, topic, or description..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
@@ -783,33 +627,68 @@ _codespace_error = _codespace_stderr.getvalue()
             ))}
           </div>
 
+          <div className="advanced-filters">
+            <label>
+              Topic
+              <select value={topicFilter} onChange={(event) => setTopicFilter(event.target.value)}>
+                {topics.map((topic) => (
+                  <option key={topic} value={topic}>
+                    {topic === "All" ? "All Topics" : topic}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Difficulty
+              <select
+                value={difficultyFilter}
+                onChange={(event) => setDifficultyFilter(event.target.value)}
+              >
+                {difficulties.map((difficulty) => (
+                  <option key={difficulty} value={difficulty}>
+                    {difficulty === "All" ? "All Difficulties" : difficulty}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <button type="button" className="clear-filters-button" onClick={clearFilters}>
+              Clear filters
+            </button>
+          </div>
+
           <div className="problem-list">
             {filteredProblems.map((problem) => (
               <button
                 key={problem.id}
-                className={`problem-item ${
-                  selectedProblem.id === problem.id ? "selected" : ""
-                }`}
+                className={`problem-item ${selectedProblem.id === problem.id ? "selected" : ""}`}
                 onClick={() => changeProblem(problem)}
               >
                 <div className="problem-item-top">
-                  <span className="problem-number">
-                    {String(problem.id).padStart(2, "0")}
-                  </span>
+                  <span className="problem-number">{String(problem.id).padStart(2, "0")}</span>
                   <span className="problem-title">{problem.title}</span>
-                  {solvedProblems.includes(problem.id) && (
-                    <span className="solved-mark">✓</span>
-                  )}
+                  {solvedProblems.includes(problem.id) && <span className="solved-mark">✓</span>}
                 </div>
-
                 <div className="problem-item-bottom">
-                  <span className="difficulty">{problem.difficulty}</span>
+                  <span className={`difficulty difficulty-${problem.difficulty.toLowerCase()}`}>
+                    {problem.difficulty}
+                  </span>
                   <span className="problem-topic">{problem.topic}</span>
                   <span
+                    role="button"
+                    tabIndex={0}
                     className="bookmark-button"
                     onClick={(event) => {
                       event.stopPropagation();
                       toggleBookmark(problem.id);
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        toggleBookmark(problem.id);
+                      }
                     }}
                     title="Bookmark problem"
                   >
@@ -818,9 +697,8 @@ _codespace_error = _codespace_stderr.getvalue()
                 </div>
               </button>
             ))}
-
             {filteredProblems.length === 0 && (
-              <p className="empty-state">No problems found.</p>
+              <p className="empty-state">No problems match these filters.</p>
             )}
           </div>
         </aside>
@@ -829,22 +707,14 @@ _codespace_error = _codespace_stderr.getvalue()
           <div className="problem-panel">
             <div className="problem-header">
               <div>
-                <h1>
-                  {String(selectedProblem.id).padStart(2, "0")}.{" "}
-                  {selectedProblem.title}
-                </h1>
-                <span className="difficulty">
+                <h1>{String(selectedProblem.id).padStart(2, "0")}. {selectedProblem.title}</h1>
+                <span className={`difficulty difficulty-${selectedProblem.difficulty.toLowerCase()}`}>
                   {selectedProblem.difficulty}
                 </span>
+                <span className="problem-topic">{selectedProblem.topic}</span>
               </div>
-
-              <button
-                className="bookmark-action"
-                onClick={() => toggleBookmark(selectedProblem.id)}
-              >
-                {bookmarks.includes(selectedProblem.id)
-                  ? "★ Bookmarked"
-                  : "☆ Bookmark"}
+              <button className="bookmark-action" onClick={() => toggleBookmark(selectedProblem.id)}>
+                {bookmarks.includes(selectedProblem.id) ? "★ Bookmarked" : "☆ Bookmark"}
               </button>
             </div>
 
@@ -866,13 +736,12 @@ _codespace_error = _codespace_stderr.getvalue()
                   <p>{selectedProblem.description}</p>
                   <h3>Topic</h3>
                   <p>{selectedProblem.topic}</p>
-                  <h3>Example</h3>
+                  <h3>Example input</h3>
                   <pre>{selectedProblem.exampleInput}</pre>
                   <h3>Expected output</h3>
                   <pre>{selectedProblem.exampleOutput}</pre>
                 </>
               )}
-
               {activeTab === "Examples" && (
                 <>
                   <h3>Sample input</h3>
@@ -881,14 +750,11 @@ _codespace_error = _codespace_stderr.getvalue()
                   <pre>{selectedProblem.exampleOutput}</pre>
                 </>
               )}
-
               {activeTab === "Output" && (
                 <div className="execution-output">
-                  <h3>Execution Output</h3>
+                  <h3>Execution output</h3>
                   <pre>{output || "Run your code to see the output."}</pre>
-                  {executionTime && (
-                    <p>Execution time: {executionTime}</p>
-                  )}
+                  {executionTime && <p>Execution time: {executionTime}</p>}
                 </div>
               )}
             </div>
@@ -907,29 +773,18 @@ _codespace_error = _codespace_stderr.getvalue()
                   </button>
                 ))}
               </div>
-
               <div className="editor-actions">
-                <button onClick={() => setFontSize((size) => Math.max(10, size - 1))}>
-                  A−
-                </button>
-                <button onClick={() => setFontSize((size) => Math.min(24, size + 1))}>
-                  A+
-                </button>
+                <button onClick={() => setFontSize((size) => Math.max(10, size - 1))}>A−</button>
+                <button onClick={() => setFontSize((size) => Math.min(24, size + 1))}>A+</button>
                 <button onClick={resetCode}>Reset Code</button>
-                <button onClick={() => navigator.clipboard?.writeText(code)}>
-                  Copy Code
-                </button>
+                <button onClick={() => navigator.clipboard?.writeText(code)}>Copy Code</button>
               </div>
             </div>
 
             <div className="code-editor">
               <Editor
                 height="390px"
-                language={
-                  language === "C++"
-                    ? "cpp"
-                    : language.toLowerCase()
-                }
+                language={language === "C++" ? "cpp" : language.toLowerCase()}
                 theme={darkMode ? "vs-dark" : "light"}
                 value={code}
                 onChange={(value) => updateCode(value ?? "")}
@@ -954,21 +809,11 @@ _codespace_error = _codespace_stderr.getvalue()
                 placeholder="Enter input for your program..."
                 rows={3}
               />
-
               <div className="run-actions">
-                <button
-                  className="run-button"
-                  onClick={runCode}
-                  disabled={isRunning || !pyodideReady}
-                >
+                <button className="run-button" onClick={runCode} disabled={isRunning || !pyodideReady}>
                   {isRunning ? "Running..." : "▶ Run Code"}
                 </button>
-
-                <button
-                  className="submit-button"
-                  onClick={submitCode}
-                  disabled={isRunning || !pyodideReady}
-                >
+                <button className="submit-button" onClick={submitCode} disabled={isRunning || !pyodideReady}>
                   {isRunning ? "Testing..." : "✓ Submit Code"}
                 </button>
               </div>
@@ -978,45 +823,22 @@ _codespace_error = _codespace_stderr.getvalue()
               <div className="test-results-heading">
                 <h3>Test Results</h3>
                 {testResults.length > 0 && (
-                  <span>
-                    {testResults.filter((test) => test.passed).length} /{" "}
-                    {testResults.length} passed
-                  </span>
+                  <span>{testResults.filter((test) => test.passed).length} / {testResults.length} passed</span>
                 )}
               </div>
 
               {testResults.length === 0 ? (
-                <p className="empty-state">
-                  Submit your solution to see test results.
-                </p>
+                <p className="empty-state">Submit your solution to see test results.</p>
               ) : (
                 testResults.map((test) => (
-                  <div
-                    key={test.number}
-                    className={`test-result ${
-                      test.passed ? "test-passed" : "test-failed"
-                    }`}
-                  >
-                    <strong>
-                      {test.passed ? "✓" : "✗"} Test Case {test.number}
-                    </strong>
-
-                    <div>
-                      <span>Expected: </span>
-                      <code>{test.expected}</code>
-                    </div>
-
-                    <div>
-                      <span>Actual: </span>
-                      <code>{test.actual}</code>
-                    </div>
+                  <div key={test.number} className={`test-result ${test.passed ? "test-passed" : "test-failed"}`}>
+                    <strong>{test.passed ? "✓" : "✗"} Test Case {test.number}</strong>
+                    <div><span>Expected: </span><code>{test.expected}</code></div>
+                    <div><span>Actual: </span><code>{test.actual}</code></div>
                   </div>
                 ))
               )}
-
-              {output && (
-                <p className="submission-message">{output}</p>
-              )}
+              {output && <p className="submission-message">{output}</p>}
             </div>
           </div>
         </section>
@@ -1024,11 +846,7 @@ _codespace_error = _codespace_stderr.getvalue()
 
       <footer className="app-footer">
         CodeSpace · Practice, learn, and improve every day.
-        <span>
-          {pyodideReady
-            ? "Python execution enabled"
-            : "Python runtime loading"}
-        </span>
+        <span>{pyodideReady ? "Python execution enabled" : "Python runtime loading"}</span>
       </footer>
     </div>
   );
