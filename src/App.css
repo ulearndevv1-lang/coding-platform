@@ -896,3 +896,60 @@ button:disabled {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ===== CodeSpace dark mode visibility ===== */
+.dark-mode .app-header h1,
+.dark-mode .app-title,
+.dark-mode .logo,
+.dark-mode .brand-name,
+.dark .app-header h1,
+.dark .app-title {
+  color: #60a5fa !important;
+  text-shadow: 0 0 12px rgba(96, 165, 250, 0.2);
+}
+
+/* Improve text visibility throughout dark mode */
+.dark-mode,
+.dark {
+  color: #f1f5f9;
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode label,
+.dark-mode p {
+  color: #f1f5f9;
+}
+
+/* ===== Run button: Green ===== */
+.run-button {
+  background: linear-gradient(135deg, #22c55e, #15803d) !important;
+  color: #ffffff !important;
+  border: 1px solid #16a34a !important;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.run-button:hover {
+  background: linear-gradient(135deg, #16a34a, #166534) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+}
+
+/* ===== Submit button: Red ===== */
+.submit-button {
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+  color: #ffffff !important;
+  border: 1px solid #dc2626 !important;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background: linear-gradient(135deg, #dc2626, #991b1b) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
