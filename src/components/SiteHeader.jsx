@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import AuthControls from "./AuthControls";
 import { useTheme } from "../hooks/useTheme";
 
 export default function SiteHeader({ variant = "practice" }) {
@@ -35,6 +36,7 @@ export default function SiteHeader({ variant = "practice" }) {
       </nav>
 
       <div className="header-actions">
+        <AuthControls />
         <button
           type="button"
           className="theme-toggle"

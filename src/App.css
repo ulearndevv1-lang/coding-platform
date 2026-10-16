@@ -206,6 +206,112 @@ button:disabled {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  position: relative;
+}
+
+.app .auth-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.app .auth-button {
+  min-height: 36px;
+  padding: 8px 12px;
+}
+
+.app .auth-user {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.app .auth-status {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.app .auth-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  width: min(320px, calc(100vw - 28px));
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.app .auth-panel-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.app .auth-panel-tabs button {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--surface-alt);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.app .auth-panel-tabs button.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.app .auth-form {
+  display: grid;
+  gap: 10px;
+}
+
+.app .auth-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.app .auth-form input {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--surface-alt);
+  font-size: 13px;
+}
+
+.app .auth-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.app .auth-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.app .auth-message {
+  margin-top: 10px;
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .app .cta-button {
